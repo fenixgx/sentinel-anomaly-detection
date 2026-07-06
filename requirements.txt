@@ -1,7 +1,10 @@
 # Sentinel — dependencias
 # Instalar con:  pip install -r requirements.txt   (o: uv pip install -r requirements.txt)
 
-torch>=2.0            # red neuronal (MLP). Instala la build de CPU/GPU según la máquina.
+# torch en versión CPU (más ligera, sin CUDA): ideal para el despliegue (Streamlit Cloud) y
+# para máquinas sin GPU. El modelo entrenado se carga y ejecuta en CPU sin problema.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.0            # red neuronal (MLP)
 pandas>=2.0           # manejo de datos tabulares
 numpy>=1.24           # operaciones numéricas
 scikit-learn>=1.3     # split, escalado y métricas (NO el modelo, que es PyTorch)
