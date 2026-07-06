@@ -18,16 +18,16 @@
 ## 🎯 Quick Status
 
 ```yaml
-timestamp: 2026-07-06 21:10
-phase: "PROYECTO COMPLETO (R1-R7). Empaquetado hecho. Falta: push del repo + vídeo"
-current_task: "Crear repo GitHub público sentinel-anomaly-detection + commit + push"
-next_action: "git init/add/commit → gh repo create --public → push. Luego guion del vídeo"
+timestamp: 2026-07-06 21:45
+phase: "ENTREGABLE. Repo público + demo online desplegada y VERIFICADA en vivo. Falta solo: el vídeo"
+current_task: "Grabar el vídeo (2 min) + enviar email de entrega"
+next_action: "Rodolfo graba el vídeo con el guion; el email de entrega ya preparado"
 context_used: "sesión larga"
 blockers: none
-breakthrough: "Sistema en 2 capas: red neuronal (detección) + RAG sobre manuales (diagnóstico). Pipeline 6/6 verificado"
-quality: "pipeline completo verificado END-TO-END (generate→eda→train→evaluate→predict→rag). README + deps listos"
-rodolfo_approved: false
-entregables_prueba: "generador ✅ · CSV ✅ · código ✅ · modelo entrenado ✅ · vídeo ⬜"
+breakthrough: "Demo online en Streamlit Cloud funcionando: predicción real, diagnóstico RAG, descargas, gráficas pro"
+quality: "Demo verificada en vivo por Rodolfo (anomalía 41% detectada; descargas válidas por hash md5)"
+rodolfo_approved: "demo SÍ (verificada en vivo); solo falta el vídeo para cerrar la entrega"
+entregables_prueba: "generador ✅ · CSV ✅ · código ✅ · modelo entrenado ✅ · demo online ✅ · vídeo ⬜"
 ```
 
 ## 📈 Progress Tracker
@@ -63,6 +63,24 @@ entregables_prueba: "generador ✅ · CSV ✅ · código ✅ · modelo entrenado
 ---
 
 ## 📜 Session Log (Newest First ⬆️)
+
+### 21:45 - ✅ REPO + DEMO DESPLEGADOS Y VERIFICADOS EN VIVO
+
+- **Action**: Repo público creado, demo desplegada en Streamlit Cloud, gráficas pulidas con
+  tema profesional (skill dataviz), descargas en la barra lateral. Verificado en vivo por Rodolfo.
+- **Task Reference**: tasks.md Fase 7 (T10 ✅)
+- **Entregado / desplegado**:
+  - Repo: https://github.com/fenixgx/sentinel-anomaly-detection (público)
+  - Demo: https://sentinel-anomaly-detection.streamlit.app (Python 3.12, torch CPU)
+  - Gráficas con tema consistente (color por trabajo: categórico / diverging / secuencial)
+  - Descargas del dataset + modelo en la barra lateral (siempre visibles) + link al repo
+- **Verificado por Rodolfo en vivo**:
+  - Predicción real (anomalía 41% con CPU 69 → alerta roja + diagnóstico RAG)
+  - Descargas: los dos .pt idénticos por md5 + coinciden con el del repo; CSV 8000 filas correcto
+- **Decisión de seguridad**: la clave va en Streamlit Secrets (no en el repo); el dashboard
+  propaga el secret a os.environ para que el RAG use el LLM.
+- **Next**: Rodolfo graba el vídeo (2 min, guion aparte) + envía el email de entrega.
+- **Status**: ✅ ENTREGABLE COMPLETO salvo el vídeo. Demo funcionando y verificada.
 
 ### 21:10 - ✅ DIFERENCIADORES + EMPAQUETADO COMPLETOS (R2, R6, R7)
 

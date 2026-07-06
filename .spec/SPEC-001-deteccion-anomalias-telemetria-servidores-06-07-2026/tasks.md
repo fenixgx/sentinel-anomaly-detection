@@ -70,8 +70,9 @@ Entregables de la prueba: **generador ✅ · CSV ✅ · código ✅ · modelo en
 - [x] **[P]** T9. README + reproducibilidad ⏱️ 40min ✅ COMPLETADO
   - README completo + requirements.txt + pyproject.toml + .gitignore + migas en todos los archivos
 
-- [🔄] **[P]** T10. Repositorio GitHub ⏱️ 15min EN PROGRESO
-  - Repo público `sentinel-anomaly-detection` (fenixgx) + commit + push
+- [x] **[P]** T10. Repositorio GitHub + demo online ⏱️ 15min ✅ COMPLETADO
+  - Repo público: https://github.com/fenixgx/sentinel-anomaly-detection
+  - Demo desplegada y verificada: https://sentinel-anomaly-detection.streamlit.app
 
 - [ ] **[OPT]** T11. Guion del vídeo (1.5-2 min)
   - 4 beats: problema → solución con criterio → cómo trabajo → cierre honesto
@@ -90,9 +91,9 @@ Entregables de la prueba: **generador ✅ · CSV ✅ · código ✅ · modelo en
 
 **Núcleo evaluado (MVP):** T1 ✅ → T2 ✅ → T3 ✅ → T4 ✅ → T5 ✅ → T6 ✅
 **Diferenciadores (B):** T7 ✅ (interfaz) + T8 ✅ (IA aplicada)
-**Empaquetado:** T9 ✅ · T10 🔄 (push) · T11 ⬜ (vídeo)
+**Empaquetado:** T9 ✅ · T10 ✅ (repo + demo online) · T11 ⬜ (vídeo)
 
-**10/11 tareas completadas.** Falta el push del repo y el vídeo.
+**10/11 tareas completadas.** Falta SOLO el vídeo.
 
 ---
 
