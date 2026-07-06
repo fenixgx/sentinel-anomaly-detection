@@ -33,6 +33,30 @@ try:
 except Exception:
     pass
 
+# --- Barra lateral: recursos y descargas (siempre visibles) ---
+with st.sidebar:
+    st.markdown("### 🛡️ Sentinel")
+    st.caption("Detección de anomalías en servidores + diagnóstico con IA")
+    st.markdown(
+        "[📦 Repositorio en GitHub]"
+        "(https://github.com/fenixgx/sentinel-anomaly-detection)"
+    )
+    st.divider()
+    st.markdown("**Descargas**")
+    _csv_path = ROOT / "data" / "sensors.csv"
+    _model_path = ROOT / "models" / "sentinel_model.pt"
+    if _csv_path.exists():
+        st.download_button(
+            "⬇️  Dataset (sensors.csv)", _csv_path.read_bytes(),
+            file_name="sensors.csv", mime="text/csv", use_container_width=True,
+        )
+    if _model_path.exists():
+        st.download_button(
+            "⬇️  Modelo entrenado (.pt)", _model_path.read_bytes(),
+            file_name="sentinel_model.pt", mime="application/octet-stream",
+            use_container_width=True,
+        )
+
 st.title("🛡️ Sentinel")
 st.caption("Detección de anomalías en telemetría de servidores · red neuronal (PyTorch) + diagnóstico con IA")
 
@@ -113,22 +137,3 @@ with tab_model:
         "Arquitectura del sistema: la red neuronal detecta la anomalía (Capa 1) y el asistente "
         "RAG diagnostica la causa y recomienda acciones sobre los manuales técnicos (Capa 2)."
     )
-
-    # --- Descargas: dataset generado + modelo entrenado (entregables de la prueba) ---
-    st.divider()
-    st.markdown("**Descargar el dataset generado y el modelo entrenado:**")
-    dcol1, dcol2 = st.columns(2)
-    csv_path = ROOT / "data" / "sensors.csv"
-    model_path = ROOT / "models" / "sentinel_model.pt"
-    with dcol1:
-        if csv_path.exists():
-            st.download_button(
-                "⬇️  Dataset (sensors.csv)", csv_path.read_bytes(),
-                file_name="sensors.csv", mime="text/csv",
-            )
-    with dcol2:
-        if model_path.exists():
-            st.download_button(
-                "⬇️  Modelo entrenado (.pt)", model_path.read_bytes(),
-                file_name="sentinel_model.pt", mime="application/octet-stream",
-            )
