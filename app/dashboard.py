@@ -11,6 +11,7 @@
 """
 
 from __future__ import annotations
+import os
 import sys
 from pathlib import Path
 
@@ -22,6 +23,15 @@ from predict import predict_one       # noqa: E402  (Capa 1: red neuronal)
 from rag_advisor import diagnose      # noqa: E402  (Capa 2: IA aplicada / RAG)
 
 st.set_page_config(page_title="Sentinel — Detección de anomalías", page_icon="🛡️", layout="wide")
+
+# En Streamlit Cloud la clave de OpenAI se define en Secrets. La copiamos a las variables de
+# entorno para que el asistente RAG (que lee os.environ) la use. Sin clave, funciona igual.
+try:
+    _openai_key = st.secrets.get("OPENAI_API_KEY", "")
+    if _openai_key:
+        os.environ["OPENAI_API_KEY"] = _openai_key
+except Exception:
+    pass
 
 st.title("🛡️ Sentinel")
 st.caption("Detección de anomalías en telemetría de servidores · red neuronal (PyTorch) + diagnóstico con IA")
