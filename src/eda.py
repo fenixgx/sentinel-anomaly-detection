@@ -55,7 +55,7 @@ def main() -> None:
     sns.heatmap(
         corr, annot=True, fmt=".2f", cmap=CMAP_DIVERGING, center=0, square=True,
         vmin=-1, vmax=1, linewidths=1.2, linecolor="white",
-        annot_kws={"size": 10, "color": INK}, cbar_kws={"shrink": 0.75, "label": "correlación"},
+        annot_kws={"size": 10}, cbar_kws={"shrink": 0.75, "label": "correlación"},
     )
     plt.title("Correlación entre sensores y fallo", loc="left")
     plt.tight_layout()

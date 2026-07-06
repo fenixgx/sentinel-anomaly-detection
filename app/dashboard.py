@@ -113,3 +113,22 @@ with tab_model:
         "Arquitectura del sistema: la red neuronal detecta la anomalía (Capa 1) y el asistente "
         "RAG diagnostica la causa y recomienda acciones sobre los manuales técnicos (Capa 2)."
     )
+
+    # --- Descargas: dataset generado + modelo entrenado (entregables de la prueba) ---
+    st.divider()
+    st.markdown("**Descargar el dataset generado y el modelo entrenado:**")
+    dcol1, dcol2 = st.columns(2)
+    csv_path = ROOT / "data" / "sensors.csv"
+    model_path = ROOT / "models" / "sentinel_model.pt"
+    with dcol1:
+        if csv_path.exists():
+            st.download_button(
+                "⬇️  Dataset (sensors.csv)", csv_path.read_bytes(),
+                file_name="sensors.csv", mime="text/csv",
+            )
+    with dcol2:
+        if model_path.exists():
+            st.download_button(
+                "⬇️  Modelo entrenado (.pt)", model_path.read_bytes(),
+                file_name="sentinel_model.pt", mime="application/octet-stream",
+            )
