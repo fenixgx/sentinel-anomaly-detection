@@ -31,6 +31,7 @@ from sklearn.metrics import (
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from train import load_splits, MODEL_PATH  # noqa: E402  (reutiliza el MISMO split, misma semilla)
 from model import AnomalyMLP  # noqa: E402
+from viz_style import apply_style, CMAP_SEQUENTIAL  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS_DIR = ROOT / "reports"
@@ -92,18 +93,21 @@ def main() -> None:
     print("  → Bajar el umbral captura más fallos (más recall) a costa de más falsas alarmas.")
     print("    En detección de anomalías se suele priorizar el recall.")
 
-    # --- Guardar matriz de confusión como imagen ---
+    # --- Guardar matriz de confusión como imagen (tema profesional) ---
+    apply_style()
     REPORTS_DIR.mkdir(exist_ok=True)
-    plt.figure(figsize=(5, 4))
-    sns.heatmap(
-        cm, annot=True, fmt="d", cmap="Blues",
-        xticklabels=[f"pred. {c}" for c in CLASS_NAMES],
-        yticklabels=[f"real {c}" for c in CLASS_NAMES],
+    plt.figure(figsize=(5.4, 4.6))
+    ax = sns.heatmap(
+        cm, annot=True, fmt="d", cmap=CMAP_SEQUENTIAL, cbar=False, square=True,
+        linewidths=1.5, linecolor="white", annot_kws={"size": 16, "weight": "bold"},
+        xticklabels=[f"predicho\n{c}" for c in CLASS_NAMES],
+        yticklabels=[f"real\n{c}" for c in CLASS_NAMES],
     )
-    plt.title("Matriz de confusión — Sentinel")
+    ax.set_title("Matriz de confusión (conjunto de test)", loc="left")
+    plt.yticks(rotation=0)
     plt.tight_layout()
     out = REPORTS_DIR / "confusion_matrix.png"
-    plt.savefig(out, dpi=120)
+    plt.savefig(out, bbox_inches="tight")
     plt.close()
     print(f"\n✅ Matriz de confusión guardada en {out}")
 

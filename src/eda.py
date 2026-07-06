@@ -3,10 +3,9 @@
 📍 UBICACIÓN: src/eda.py
 
 🎯 PORQUÉ EXISTE: Cubre el punto "Análisis Exploratorio (EDA): visualización de correlaciones
-   y preparación de datos" de la prueba. Genera las gráficas y deja por escrito las decisiones
-   de preparación (por qué escalar, por qué estratificar, por qué priorizar recall).
-🚨 CUIDADO: usa backend 'Agg' (guarda a archivo, no abre ventana) para poder correr en
-   servidores/CI sin entorno gráfico. Depende de que exista `data/sensors.csv`.
+   y preparación de datos" de la prueba. Genera las gráficas (con un tema visual profesional
+   y consistente, ver viz_style.py) y deja por escrito las decisiones de preparación.
+🚨 CUIDADO: usa backend 'Agg' (guarda a archivo, no abre ventana). Depende de `data/sensors.csv`.
 📋 SPEC: SPEC-001-sentinel — R2 (EDA) — CREATED
 """
 
@@ -22,13 +21,22 @@ import seaborn as sns
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate_data import FEATURES, TARGET  # noqa: E402
+from viz_style import apply_style, COLOR_NORMAL, COLOR_FALLO, CMAP_DIVERGING, INK  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "sensors.csv"
 REPORTS = ROOT / "reports"
 
+SENSOR_TITLES = {
+    "temperature": "Temperatura (°C)",
+    "cpu_usage": "CPU (%)",
+    "memory_usage": "Memoria (%)",
+    "network_traffic": "Red (Mbps)",
+}
+
 
 def main() -> None:
+    apply_style()
     df = pd.read_csv(DATA_PATH)
     REPORTS.mkdir(exist_ok=True)
 
@@ -41,32 +49,40 @@ def main() -> None:
     print(f"Muestras: {len(df)}  |  Fallos: {n_fail} ({fail_rate:.1%})  |  Normales: {len(df)-n_fail}")
     print("→ Clase DESBALANCEADA: la accuracy engaña, priorizaremos el recall de la clase 'fallo'.")
 
-    # --- 1) Matriz de correlaciones ---
+    # --- 1) Matriz de correlaciones (diverging: -1..+1, gris neutro en 0) ---
     corr = df.corr(numeric_only=True)
-    plt.figure(figsize=(6, 5))
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm", center=0, square=True,
-                cbar_kws={"shrink": 0.8})
-    plt.title("Matriz de correlaciones")
+    plt.figure(figsize=(6.5, 5.4))
+    sns.heatmap(
+        corr, annot=True, fmt=".2f", cmap=CMAP_DIVERGING, center=0, square=True,
+        vmin=-1, vmax=1, linewidths=1.2, linecolor="white",
+        annot_kws={"size": 10, "color": INK}, cbar_kws={"shrink": 0.75, "label": "correlación"},
+    )
+    plt.title("Correlación entre sensores y fallo", loc="left")
     plt.tight_layout()
-    plt.savefig(REPORTS / "correlations.png", dpi=120)
+    plt.savefig(REPORTS / "correlations.png", bbox_inches="tight")
     plt.close()
 
     print("\nCorrelación de cada sensor con 'failure':")
     for name, val in corr[TARGET].drop(TARGET).sort_values(ascending=False).items():
         print(f"  {name:18s} {val:+.3f}")
 
-    # --- 2) Distribución de cada sensor por clase (normal vs fallo) ---
-    fig, axes = plt.subplots(1, len(FEATURES), figsize=(16, 4))
+    # --- 2) Distribución de cada sensor por clase (categórico: normal vs fallo) ---
+    fig, axes = plt.subplots(1, len(FEATURES), figsize=(15, 4.4))
     for ax, feat in zip(axes, FEATURES):
-        sns.boxplot(data=df, x=TARGET, y=feat, ax=ax, hue=TARGET,
-                    palette=["#4c72b0", "#c44e52"], legend=False)
+        sns.boxplot(
+            data=df, x=TARGET, y=feat, ax=ax, hue=TARGET, legend=False,
+            palette={0: COLOR_NORMAL, 1: COLOR_FALLO},
+            width=0.62, fliersize=2, linewidth=1.2,
+        )
         ax.set_xticks([0, 1])
         ax.set_xticklabels(["normal", "fallo"])
         ax.set_xlabel("")
-        ax.set_title(feat)
-    plt.suptitle("Distribución de cada sensor: servidores normales vs fallos", y=1.02)
+        ax.set_ylabel("")
+        ax.set_title(SENSOR_TITLES.get(feat, feat), fontsize=12)
+    fig.suptitle("Distribución de cada sensor: servidores normales vs fallos",
+                 x=0.5, y=1.05, fontsize=15, fontweight="bold", color=INK)
     plt.tight_layout()
-    plt.savefig(REPORTS / "distributions.png", dpi=120, bbox_inches="tight")
+    plt.savefig(REPORTS / "distributions.png", bbox_inches="tight")
     plt.close()
 
     # --- Conclusiones (decisiones de preparación de datos) ---
