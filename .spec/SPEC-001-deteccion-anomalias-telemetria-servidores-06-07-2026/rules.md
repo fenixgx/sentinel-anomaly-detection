@@ -1,7 +1,6 @@
 # RULES - Fusion 2.1 + SubAgents UNIFICADO
 
 **Versión:** 2.3 CLEAN
-**Creado:** 19-20 Nov 2025 (Rodolfo + Sonnet 3.5 + Sonnet 4.5)
 **Limpiado:** 25 Feb 2026 (eliminación duplicados, misma sustancia)
 **Para:** TODOS (Rodolfo + Claude Orquestador + Agentes Opus)
 
