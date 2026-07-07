@@ -1,8 +1,6 @@
 # RULES - Fusion 2.1 + SubAgents UNIFICADO
 
 **Versión:** 2.3 CLEAN
-**Limpiado:** 25 Feb 2026 (eliminación duplicados, misma sustancia)
-**Para:** TODOS (Rodolfo + Claude Orquestador + Agentes Opus)
 
 ---
 
